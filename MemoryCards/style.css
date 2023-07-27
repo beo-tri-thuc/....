@@ -1,0 +1,57 @@
+body{
+  margin-top: 100px;
+  background-color: #8f8f8f;
+}
+
+.wrapper  {
+  margin: 0 auto 0 auto;
+  max-width: 330px
+}
+
+
+button {
+  font-size: 1.0em;
+  color: black;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-style: none;
+  border: 2px solid black;
+  margin-top: 50px;
+}
+
+button:hover {
+  opacity: 0.6;
+  color: grey;
+}
+
+
+button.start-button {
+  margin-left: 30px;
+  margin-bottom: 40px;
+}
+
+button.redo-button {
+float:right;
+margin-right: 30px;
+}
+
+h2.count {
+  margin-left: 30px;
+}
+
+
+
+td.card {
+    width: 100px;
+    height: 140px;
+    border: 1px solid black;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 36px;
+    background-color: white;
+    box-shadow: rgb(128, 128, 128) 5px 5px;
+}
+td.back {
+    background-image: url("Poke.png");
+    background-size: 100px 140px;
+}

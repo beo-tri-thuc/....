@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+      <title>MemoryCards</title>
+      <META charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+
+      <script>
+
+          Array.prototype.shuffle = function () { 
+              var i = this.length;
+              while (i) {
+                  var j = Math.floor(Math.random() * i);
+                  var t = this[--i];
+                  this[i] = this[j];
+                  this[j] = t;
+              }
+              return this;
+          }
+
+          // 広域変数
+          var timer = NaN, score = 0,flipTimer, prevCard, startTime;
+          var beginningGame = false;
+
+          // 初期化関数
+          function init() {
+              var table = document.getElementById("table");
+
+
+              var cards = [];
+              for (var i = 1 ; i <= 6 ; i++) {
+                  cards.push(i);
+                  cards.push(i);
+              }
+              cards.shuffle();
+
+              for (var i = 0 ; i < 4 ; i++) {
+                  var tr = document.createElement("tr");
+                  for (var j = 0 ; j < 3 ; j++) {
+                      var td = document.createElement("td");
+                      td.className = "card back";
+                      td.number = cards[i * 3 + j];
+                      td.onclick = flip;
+                      tr.appendChild(td);
+                  }
+                  table.appendChild(tr);
+              }
+          }
+
+
+          function flip(e) {
+              var src = e.srcElement;
+              if (flipTimer || src.textContent != "") { 
+                  return;
+              }
+
+              if(!beginningGame) return;
+
+              var num = src.number;
+              src.className = "card";
+
+              switch (num){
+                case 1:
+                  src.textContent = "A";
+                break;
+                case 2:
+                  src.textContent = "B";
+                break;
+                case 3:
+                  src.textContent = "C";
+                break;
+                case 4:
+                  src.textContent = "D";
+                break;
+                case 5:
+                  src.textContent = "E";
+                break;
+                case 6:
+                  src.textContent = "F";
+                break;
+              }
+
+
+                if (prevCard == null) { 
+                    prevCard = src;
+                    return;
+                }
+
+
+              if (prevCard.number == num) {
+                  if (++score == 6) {
+                      stopTimer();
+                  }
+                  prevCard = null;
+                  clearTimeout(flipTimer);
+
+              } else {
+                  flipTimer = setTimeout(function () {
+                      src.className = "card back";
+                      src.textContent = "";
+                      prevCard.className = "card back";
+                      prevCard.textContent = "";
+                      prevCard = null;
+                      flipTimer = NaN;
+                  }, 1000);
+              }
+          }
+
+
+          var timerId = NaN, count = 0;
+          function startTimer() {
+
+            beginningGame = true;
+
+              clearInterval(timerId);
+              timerId = setInterval(tick, 10);
+
+          }
+
+          function stopTimer() {
+              clearInterval(timerId);
+          }
+
+          function tick() {
+              count++;
+              document.getElementById("counter").textContent = count/100;
+          }
+
+          function redo() {
+              location.reload(true);
+          }
+
+
+      </script>
+  </head>
+
+    <div class ="wrapper">
+        <div>
+          <button class="start-button" onclick="startTimer();disabled = true;">Start</button>
+          <button class="redo-button" onclick="redo()">Redo</button>
+        </div>
+      <body onload="init()">
+        <table id="table"></table>
+        <h2 class="count" id="counter"></h2>
+    </body>
+  </div>
+</html>
